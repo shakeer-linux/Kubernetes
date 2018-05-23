@@ -2,10 +2,10 @@
 ---
 **Installing Kubernetes Cluster with 2 minions on CentOS to manage pods and services.**
 
-Introduction
+**Introduction**
 Kubernetes is a system designed to manage containerized applications built within Docker containers in a clustered environments. It provides basic mechanisms for deployment, maintenance and scaling of applications on public, private or hybrid setups, means, it handles the entire life cycle of a containerized application. It also have intelligence of self-healing features where containers can be auto provisioned, restarted or even replicated.
 
-Goals
+**Goals**
 * Understand the utility of Kubernetes
 * Learn how to Setup Kubernetes Cluster
 Prerequisites
@@ -13,24 +13,24 @@ Prerequisites
 * The nodes must installed docker and bridge-utils to manipulate linux bridge.
 * All machines should communicate with each other and Master node needs to be connected to the Internet as it download the necessary files
 
-Kubernetes Components:
+**Kubernetes Components:**
 Kubernetes works in server-client concept, where, it has a master that provide centralized control for a all minions(agent). We will be deploying one Kubernetes master with one minion and we will also have a workspace machine from where we will run all installation scripts.
 
 Kubernetes has several components:
-Master Components:
+**Master Components:**
 etcd – A highly available key-value store for shared configuration and service discovery.
 flannel – An etcd backed network fabric for containers.
 kube-apiserver – Provides the API for Kubernetes orchestration.
 kube-controller-manager – Enforces Kubernetes services.
 kube-scheduler – Schedules containers on hosts.
 
-Minion Components:
+**Minion Components:**
 Docker - 	a daemon that runs application containers defined in pods.
 kubelet – Processes a container manifest so the containers are launched according to how they are described.
 kube-proxy – Provides network proxy services.
 
 
-Installation:
+**Installation:**
 
 Download and Install Minimal CentOS 7 Operating System in Virtual Boxes.
 
@@ -58,7 +58,7 @@ IP address	HostName
 192.168.11.22	k8s-node2.     # Minion Node2
 ```
 
-Versions:
+**Versions:**
 OperatingSystem:
 ```sh
 	# cat /etc/redhat-release
@@ -79,10 +79,10 @@ Kubernetes:
 ```
 
 
-Steps to installation:
+**Steps to installation:**
 1. Install ISO on all VM’s.
 2. Install basic packages:
-	setup-tools, vim, telnet etc	
+**	setup-tools, vim, telnet etc	**
 3. Configure second Interface(Host Only Adapter) enp0s8 on all nodes.
 	[root@k8s-master ~]# cat /etc/sysconfig/network-scripts/ifcfg-enp0s8
 	TYPE="Ethernet"
