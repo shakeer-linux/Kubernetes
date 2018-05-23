@@ -1,5 +1,5 @@
-KUBERNETES INSTALLATION DOCUMENT
-
+# KUBERNETES INSTALLATION DOCUMENT
+---
 Installing Kubernetes Cluster with 2 minions on CentOS to manage pods and services.
 
 Introduction
