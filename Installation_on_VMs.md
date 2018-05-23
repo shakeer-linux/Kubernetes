@@ -87,9 +87,12 @@ Kubernetes:
 
 **Steps to installation:**
 1. Install ISO on all VM’s.
-2. Install basic packages:
-**	setup-tools, vim, telnet etc	**
+2. Install basic packages:  
+```sh
+setup-tools, vim, telnet etc
+```
 3. Configure second Interface(Host Only Adapter) enp0s8 on all nodes.
+```sh
 	[root@k8s-master ~]# cat /etc/sysconfig/network-scripts/ifcfg-enp0s8
 	TYPE="Ethernet"
 	BROWSER_ONLY="no"
@@ -106,19 +109,23 @@ Kubernetes:
 	192.168.11.20	k8s-master
 	192.168.11.21	k8s-node1
 	192.168.11.22	k8s-node2
-
+```
 4. Disable selinux on all machines.
+```sh
 	setenforce 0
 	vim /etc/sysconfig/selinux
 	SELINUX=disabled
 	getenforce 						## To check the selinux status.
-
+```
 5. Disable firewalld on all nodes:
+```sh
 	systemctl firewalld stop
 	systemctl firewalld disable
 	systemctl firewalld status
 	
+```
 6. Configure kubernetes repo on all nodes.
+```sh
 	[root@k8s-master files]# cat /etc/yum.repos.d/kubernetes.repo
 	[kubernetes]
 	name=Kubernetes
@@ -129,13 +136,15 @@ Kubernetes:
 	gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
 	       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 
+```
 7. Do yum update to get the latest version of kubeadm on all nodes. yum update all
 
 
-On Master Node:
+**On Master Node:**  
 1. Install Kubeadm and Docker on master node.
+```sh
 	yum install kubeadm docker -y
-       If you are not disabled firewalld service then enable the below ports on master.
+       ##If you are not disabled firewalld service then enable the below ports on master.
 	firewall-cmd --permanent --add-port=6443/tcp
 	firewall-cmd --permanent --add-port=2379-2380/tcp
 	firewall-cmd --permanent --add-port=10250/tcp
@@ -143,25 +152,28 @@ On Master Node:
 	firewall-cmd --permanent --add-port=10252/tcp
 	firewall-cmd --permanent --add-port=10255/tcp
 	firewall-cmd --reload
-
-2. Load module br_netfilter
+```
+2. Load module br_netfilter  
+```sh
 	modprobe br_netfilter
 	echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
-
+```
 3. Add following line “--runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice” in 10-kubeadm.conf file to avoid errors.
- 
+```sh
 	[root@k8s-master ~]# cat /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 		ExecStart=/usr/bin/kubelet --runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice $KUBELET_KUBECONFIG_ARGS
 		 $KUBELET_SYSTEM_PODS_ARGS $KUBELET_NETWORK_ARGS $KUBELET_DNS_ARGS $KUBELET_AUTHZ_ARGS $KUBELET_CADVISOR_ARGS
 		 $KUBELET_CGROUP_ARGS $KUBELET_CERTIFICATE_ARGS $KUBELET_EXTRA_ARGS
-
+```
 4. Enable and start docker and kubelet services
+```sh
 	service enable docker
 	service start docker
 	service enable kubelet
 	service start kubelet
-
+```
 5. Initializing kubernetes cluster and Initializing master
+```sh
 	[root@k8s-master ~]# kubeadm init --apiserver-advertise-address=192.168.11.20 --pod-network-cidr=10.244.0.0/16
 	[init] Using Kubernetes version: v1.10.0
 	[init] Using Authorization modes: [Node RBAC]
@@ -223,21 +235,23 @@ On Master Node:
 
 	 kubeadm join 192.168.11.20:6443 --token 3u77u7.rnapcinvjw7fj5ic --discovery-token-ca-cert-hash
 	 sha256:85dea3c3aad54b0bf27c4a5446f89b79b8d6b74e500cc100290ee679f93744cd
-
+```
 6. To Make kubectl work run below commands:
-	For non-root user:
+```sh
+	## For non-root user:
 		mkdir -p $HOME/.kube
 		sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 		sudo chown $(id -u):$(id -g) $HOME/.kube/config
-	For root user:
+	## For root user:
 		export KUBECONFIG=/etc/kubernetes/admin.conf
+```
 
 7. Make a record of the kubeadm join command that kubeadm init outputs. You will need this in a moment.
 
 8. Installation of POD network. We must install a pod network add-on so that our pods can communicate with each other. The network must be deployed before any applications. Also, kube-dns, an internal helper service, will not start up before a network is installed. kubeadm only supports Container Network Interface (CNI) based networks (and does not support kubenet). Ref: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network
-	
+```sh	
 	kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml		
-
+```
 
 On Minion/Work Nodes:
 1. Do yum update to get the latest version of kubeadm on all nodes. yum update all
