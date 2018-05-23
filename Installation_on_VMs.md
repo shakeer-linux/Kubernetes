@@ -248,61 +248,67 @@ setup-tools, vim, telnet etc
 
 7. Make a record of the kubeadm join command that kubeadm init outputs. You will need this in a moment.
 
-8. Installation of POD network. We must install a pod network add-on so that our pods can communicate with each other. The network must be deployed before any applications. Also, kube-dns, an internal helper service, will not start up before a network is installed. kubeadm only supports Container Network Interface (CNI) based networks (and does not support kubenet). Ref: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network
+8. **Installation of POD network.**  
+We must install a pod network add-on so that our pods can communicate with each other. The network must be deployed before any applications. Also, kube-dns, an internal helper service, will not start up before a network is installed. kubeadm only supports Container Network Interface (CNI) based networks (and does not support kubenet). Ref: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network
 ```sh	
 	kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml		
 ```
 
-On Minion/Work Nodes:
+**On Minion/Work Nodes:**
 1. Do yum update to get the latest version of kubeadm on all nodes. yum update all
 
 2. Install Kubeadm and Docker on master node.
+```sh
 	yum install kubeadm docker -y
-
+```
 3. Add line “--runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice” in 10-kubeadm.conf file.
+```sh	
 	[root@k8s-master ~]# cat /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 		ExecStart=/usr/bin/kubelet --runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice $KUBELET_KUBECONFIG_ARGS
 		 $KUBELET_SYSTEM_PODS_ARGS $KUBELET_NETWORK_ARGS $KUBELET_DNS_ARGS $KUBELET_AUTHZ_ARGS $KUBELET_CADVISOR_ARGS
 		 $KUBELET_CGROUP_ARGS $KUBELET_CERTIFICATE_ARGS $KUBELET_EXTRA_ARGS 
+```
 4. Install kubeadm and docker package on both nodes and Start and enable services
+```sh
 	systemctl enable docker
 	systemctl start docker
 	systemctl enable kubelet
 	systemctl start kubelet
 	systemctl daemon-reload
 	systemctl restart kubelet.service
-
+```
 5. Now Join worker nodes to master node. To join worker nodes to Master node, a token is required. Whenever kubernetes master initialized , then in the output we get command and token. Copy that command and run on both nodes.
-
-	# kubeadm join 192.168.11.20:6443 --token mkm92g.jajnw07mz3du6jdy --discovery-token-ca-cert-hash sha256:5b8be32a74b88c69bcb851a28cbb4cd6dcac5c685312180303495fc367ec0db4
-
-
-Deployment on Master Node:
-	Check below commands:
-		[root@k8s-master ~]# kubectl get nodes
-		NAME         STATUS    ROLES     AGE       VERSION
-		k8s-master   Ready     master    6h        v1.10.0
-		k8s-node1    Ready     <none>    6h        v1.10.0
+```sh
+	kubeadm join 192.168.11.20:6443 --token mkm92g.jajnw07mz3du6jdy --discovery-token-ca-cert-hash sha256:5b8be32a74b88c69bcb851a28cbb4cd6dcac5c685312180303495fc367ec0db4
+```
+**Deployment on Master Node:**
+	*Check below commands:*
+```sh	
+[root@k8s-master ~]# kubectl get nodes
+NAME         STATUS    ROLES     AGE       VERSION
+k8s-master   Ready     master    6h        v1.10.0
+k8s-node1    Ready     <none>    6h        v1.10.0
 	
-		[root@k8s-master ~]# kubectl get pods --all-namespaces -n kube-system
-		NAMESPACE     NAME                                 READY     STATUS    RESTARTS   AGE
-		default       wordpress-78bd55fc98-5jb6v           1/1       Running   0          3h
-		default       wordpress-mysql-bcc89f687-ps7mr      1/1       Running   0          5h
-		kube-system   etcd-k8s-master                      1/1       Running   0          6h
-		kube-system   kube-apiserver-k8s-master            1/1       Running   0          6h
-		kube-system   kube-controller-manager-k8s-master   1/1       Running   0          6h
-		kube-system   kube-dns-86f4d74b45-xwlq7            3/3       Running   0          6h
-		kube-system   kube-flannel-ds-45ztb                1/1       Running   0          6h
-		kube-system   kube-flannel-ds-7vk4f                1/1       Running   1          6h
-		kube-system   kube-proxy-4wk89                     1/1       Running   0          6h
-		kube-system   kube-proxy-kwh8b                     1/1       Running   0          6h
-		kube-system   kube-scheduler-k8s-master            1/1       Running   0          6h
-		[root@k8s-master ~]#
-
+[root@k8s-master ~]# kubectl get pods --all-namespaces -n kube-system
+NAMESPACE     NAME                                 READY     STATUS    RESTARTS   AGE
+default       wordpress-78bd55fc98-5jb6v           1/1       Running   0          3h
+default       wordpress-mysql-bcc89f687-ps7mr      1/1       Running   0          5h
+kube-system   etcd-k8s-master                      1/1       Running   0          6h
+kube-system   kube-apiserver-k8s-master            1/1       Running   0          6h
+kube-system   kube-controller-manager-k8s-master   1/1       Running   0          6h
+kube-system   kube-dns-86f4d74b45-xwlq7            3/3       Running   0          6h
+kube-system   kube-flannel-ds-45ztb                1/1       Running   0          6h
+kube-system   kube-flannel-ds-7vk4f                1/1       Running   1          6h
+kube-system   kube-proxy-4wk89                     1/1       Running   0          6h
+kube-system   kube-proxy-kwh8b                     1/1       Running   0          6h
+kube-system   kube-scheduler-k8s-master            1/1       Running   0          6h
+[root@k8s-master ~]#
+```
 
 
 1. Create a persistent volume for mysql container.
 	create -f mysql-volume.yaml
+```sh
 	[root@k8s-master files]# cat mysql-volume.yaml
 	kind: PersistentVolume
 	apiVersion: v1
@@ -318,18 +324,18 @@ Deployment on Master Node:
 	    - ReadWriteOnce
 	  hostPath:
 	    path: "/mnt/data"
-
+```
 2. Create a secret for MySQL Password. Secret is an object that stores a piece of sensitive data like a password or key. 
-	
-	[root@k8s-master files]# kubectl create secret generic mysql-pass --from-literal=password=YOUR_PASSWORD
-	[root@k8s-master files]# kubectl get secrets
-	NAME                  TYPE                                  DATA      AGE
-	mysql-pass            Opaque                                1         5h
-
+```sh	
+[root@k8s-master files]# kubectl create secret generic mysql-pass --from-literal=password=YOUR_PASSWORD
+[root@k8s-master files]# kubectl get secrets
+NAME                  TYPE                                  DATA      AGE
+mysql-pass            Opaque                                1         5h
+```
 3. Deploy MySQL
-	kubectl create -f mysql.yaml
+kubectl create -f mysql.yaml
 	The following manifest describes a single-instance MySQL Deployment. The MySQL container mounts the PersistentVolume at /var/lib/mysql. The MYSQL_ROOT_PASSWORD environment variable sets the database password from the Secret.
-
+```sh
 [root@k8s-master files]# cat mysql.yaml
 apiVersion: v1
 kind: Service
@@ -397,10 +403,10 @@ spec:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
           claimName: mysql-pv-claim
-
+```
 4. create a persistent volume for Wordpress container/pod.
 	create -f wordpress-volume.yaml
-
+```sh
 	[root@k8s-master files]# cat vol_wp.yaml
 	kind: PersistentVolume
 	apiVersion: v1
@@ -416,11 +422,12 @@ spec:
 	    - ReadWriteOnce
 	  hostPath:
 	    path: "/mnt/data3"
-
+```
 5. Deploy WordPress
 	The following manifest describes a single-instance WordPress Deployment and Service. It uses many of the same features like a PVC for persistent storage and a Secret for the password. But it also uses a different setting: type: NodePort. This setting exposes WordPress to traffic from outside of the cluster.
 	kubectl create -f wordpress-deployment.yaml
 
+```sh
 [root@k8s-master files]# cat wordpress.yaml
 apiVersion: v1
 kind: Service
@@ -493,31 +500,33 @@ spec:
         persistentVolumeClaim:
           claimName: wp-pv-claim
 [root@k8s-master files]#
-
+```
 6. Accessing the Wordpress Application from Browser:
-
+```sh
 	[root@k8s-master files]# kubectl get services
 	NAME              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
 	kubernetes        ClusterIP   10.96.0.1        <none>        443/TCP        7h
 	wordpress         NodePort    10.101.252.179   <none>        80:31623/TCP   3h
 	wordpress-mysql   ClusterIP   None             <none>        3306/TCP       6h
 	[root@k8s-master files]#
-      From the Above output 31623 is Port and node1 IP address is 192.168.11.21.
-	Open 192.168.11.21:31623 in you browser
+```
+From the Above output 31623 is Port and node1 IP address is 192.168.11.21.
+	**Open 192.168.11.21:31623 in you browser**
 
 7. To Access containers or pods we can you below command.
-
+```sh
 	[root@k8s-master files]# kubectl get pods
 	NAME                              READY     STATUS    RESTARTS   AGE
 	wordpress-78bd55fc98-5jb6v        1/1       Running   0          3h
 	wordpress-mysql-bcc89f687-ps7mr   1/1       Running   0          6h
-
-	Login to Kubernetes container:
+```
+**Login to Kubernetes container:**
+```sh
 		kubectl exec -it wordpress-mysql-bcc89f687-ps7mr -- /bin/bash
+```
 
-
-Some commands and outputs:
-
+*Some commands and their outputs:*
+```sh
 [root@k8s-master files]# kubectl get nodes
 NAME         STATUS    ROLES     AGE       VERSION
 k8s-master   Ready     master    7h        v1.10.0
@@ -539,23 +548,33 @@ kube-system   kube-flannel-ds-7vk4f                1/1       Running   1        
 kube-system   kube-proxy-4wk89                     1/1       Running   0          7h
 kube-system   kube-proxy-kwh8b                     1/1       Running   0          7h
 kube-system   kube-scheduler-k8s-master            1/1       Running   0          7h
+
+
 [root@k8s-master files]# kubectl get pv
 NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                    STORAGECLASS   REASON    AGE
 task-pv-vol-wp   3Gi        RWO            Retain           Bound     default/wp-pv-claim      wp                       3h
 task-pv-volume   3Gi        RWO            Retain           Bound     default/mysql-pv-claim   manual                   6h
+
+
 [root@k8s-master files]# kubectl get pvc
 NAME             STATUS    VOLUME           CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 mysql-pv-claim   Bound     task-pv-volume   3Gi        RWO            manual         6h
 wp-pv-claim      Bound     task-pv-vol-wp   3Gi        RWO            wp             3h
+
+
 [root@k8s-master files]# kubectl get services
 NAME              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
 kubernetes        ClusterIP   10.96.0.1        <none>        443/TCP        7h
 wordpress         NodePort    10.101.252.179   <none>        80:31623/TCP   3h
 wordpress-mysql   ClusterIP   None             <none>        3306/TCP       6h
+
+
 [root@k8s-master files]# kubectl get deployments
 NAME              DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 wordpress         1         1         1            1           3h
 wordpress-mysql   1         1         1            1           6h
+
+
 [root@k8s-master files]# kubectl get all
 NAME                              READY     STATUS    RESTARTS   AGE
 wordpress-78bd55fc98-5jb6v        1/1       Running   0          3h
@@ -573,6 +592,5 @@ wordpress-mysql   1         1         1            1           6h
 NAME                        DESIRED   CURRENT   READY     AGE
 wordpress-78bd55fc98        1         1         1         3h
 wordpress-mysql-bcc89f687   1         1         1         6h
-
-
+```
 
