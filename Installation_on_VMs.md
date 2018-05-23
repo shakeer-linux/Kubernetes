@@ -43,16 +43,16 @@ Download and Install Minimal CentOS 7 Operating System in Virtual Boxes.
 *Links to Download:*  
 http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso  
 Download minimal ISO:   
-http://centos.excellmedia.net/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso
+http://centos.excellmedia.net/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso  
 
-Refferred links to install kubernetes:
-https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
-https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/
-https://www.linuxtechi.com/install-kubernetes-1-7-centos7-rhel7/
-https://www.vultr.com/docs/getting-started-with-kubernetes-on-centos-7
-https://foxutech.com/how-to-run-wordpress-on-kubernetes/
-https://www.youtube.com/watch?v=F-DQeymA0Oc
-https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network
+**Refferred links to install kubernetes:**  
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/  
+https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/  
+https://www.linuxtechi.com/install-kubernetes-1-7-centos7-rhel7/  
+https://www.vultr.com/docs/getting-started-with-kubernetes-on-centos-7  
+https://foxutech.com/how-to-run-wordpress-on-kubernetes/  
+https://www.youtube.com/watch?v=F-DQeymA0Oc  
+https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network  
 
 
 Take 3 nodes:
