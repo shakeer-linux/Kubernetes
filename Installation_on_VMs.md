@@ -40,9 +40,9 @@ kube-proxy – Provides network proxy services.
 
 Download and Install Minimal CentOS 7 Operating System in Virtual Boxes.
 
-*Links to Download:*
-http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso
-Download minimal ISO: 
+*Links to Download:*  
+http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso  
+Download minimal ISO:   
 http://centos.excellmedia.net/7/isos/x86_64/CentOS-7-x86_64-Minimal-1708.iso
 
 Refferred links to install kubernetes:
