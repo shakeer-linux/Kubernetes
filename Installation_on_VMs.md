@@ -1,6 +1,6 @@
 # KUBERNETES INSTALLATION DOCUMENT
 ---
-*Installing Kubernetes Cluster with 2 minions on CentOS to manage pods and services.*
+**Installing Kubernetes Cluster with 2 minions on CentOS to manage pods and services.**
 
 Introduction
 Kubernetes is a system designed to manage containerized applications built within Docker containers in a clustered environments. It provides basic mechanisms for deployment, maintenance and scaling of applications on public, private or hybrid setups, means, it handles the entire life cycle of a containerized application. It also have intelligence of self-healing features where containers can be auto provisioned, restarted or even replicated.
