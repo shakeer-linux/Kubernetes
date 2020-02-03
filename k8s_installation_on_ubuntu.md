@@ -68,12 +68,17 @@ root@ubuntu:~# cat /etc/apt/sources.list.d/kubernetes.list
 deb http://apt.kubernetes.io/ kubernetes-xenial main
 root@ubuntu:~#
 ```
-**Now update the package list and install
+**Now update the package list and install**
 ```
 root@ubuntu:~# sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
 Reading package lists… Done
+- - - 
+********** Some Output has skipped here **********
+- - -
+root@ubuntu:~#
+
 ````
-**Configure the hosts file
+**Configure the hosts file**
 ```
 root@ubuntu:~# cat /etc/hosts
 127.0.0.1	localhost
@@ -91,7 +96,7 @@ root@ubuntu:~#
 ```
 root@ubuntu:~# kubeadm init  --apiserver-advertise-address=192.168.11.40 --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=NumCPU
 - - - 
-- - -
+********** Some Output has skipped here **********
 - - -
 our Kubernetes control-plane has initialized successfully!
 
@@ -135,9 +140,26 @@ root@ubuntu:~# kubectl apply -f https://raw.githubusercontent.com/coreos/flannel
 #### Note : Please wait for few seconds
 
 
-#### Commands:
+**Commands:**
 
 ```
+root@ubuntu:~# kubectl version
+Client Version: version.Info{Major:"1", Minor:"17", GitVersion:"v1.17.2", GitCommit:"59603c6e503c87169aea6106f57b9f242f64df89", GitTreeState:"clean", BuildDate:"2020-01-18T23:30:10Z", GoVersion:"go1.13.5", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"17", GitVersion:"v1.17.2", GitCommit:"59603c6e503c87169aea6106f57b9f242f64df89", GitTreeState:"clean", BuildDate:"2020-01-18T23:22:30Z", GoVersion:"go1.13.5", Compiler:"gc", Platform:"linux/amd64"}
+root@ubuntu:~#
+
+
+root@ubuntu:~# kubectl get nodes
+NAME     STATUS   ROLES    AGE    VERSION
+ubuntu   Ready    master   104m   v1.17.2
+root@ubuntu:~#
+
+root@ubuntu:~# kubectl get services
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   104m
+root@ubuntu:~#
+
+
 root@ubuntu:~# kubectl get pods --all-namespaces
 NAMESPACE     NAME                             READY   STATUS    RESTARTS   AGE
 kube-system   coredns-6955765f44-88m6f         1/1     Running   0          5m44s
