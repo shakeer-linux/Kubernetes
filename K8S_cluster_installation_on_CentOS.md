@@ -92,15 +92,15 @@ setup-tools, vim, telnet etc
 ```
 6. Configure kubernetes repo on all nodes.
 ```sh
-	[root@k8s-master files]# cat /etc/yum.repos.d/kubernetes.repo
-	[kubernetes]
-	name=Kubernetes
-	baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
-	enabled=1
-	gpgcheck=1
-	repo_gpgcheck=1
-	gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
-	       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+[root@k8s-master files]# cat /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+       https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 
 ```
 7. Do yum update to get the latest version of kubeadm on all nodes. yum update all
@@ -109,15 +109,17 @@ setup-tools, vim, telnet etc
 **On Master Node:**  
 1. Install Kubeadm and Docker on master node.
 ```sh
-	yum install kubeadm docker -y
-       ##If you are not disabled firewalld service then enable the below ports on master.
-	firewall-cmd --permanent --add-port=6443/tcp
-	firewall-cmd --permanent --add-port=2379-2380/tcp
-	firewall-cmd --permanent --add-port=10250/tcp
-	firewall-cmd --permanent --add-port=10251/tcp
-	firewall-cmd --permanent --add-port=10252/tcp
-	firewall-cmd --permanent --add-port=10255/tcp
-	firewall-cmd --reload
+yum install kubeadm docker -y
+```
+##If you are not disabled firewalld service then enable the below ports on master.
+```
+firewall-cmd --permanent --add-port=6443/tcp
+firewall-cmd --permanent --add-port=2379-2380/tcp
+firewall-cmd --permanent --add-port=10250/tcp
+firewall-cmd --permanent --add-port=10251/tcp
+firewall-cmd --permanent --add-port=10252/tcp
+firewall-cmd --permanent --add-port=10255/tcp
+firewall-cmd --reload
 ```
 2. Load module br_netfilter  
 ```sh
@@ -126,21 +128,21 @@ setup-tools, vim, telnet etc
 ```
 3. Add following line “--runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice” in 10-kubeadm.conf file to avoid errors.
 ```sh
-	[root@k8s-master ~]# cat /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-		ExecStart=/usr/bin/kubelet --runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice $KUBELET_KUBECONFIG_ARGS
-		 $KUBELET_SYSTEM_PODS_ARGS $KUBELET_NETWORK_ARGS $KUBELET_DNS_ARGS $KUBELET_AUTHZ_ARGS $KUBELET_CADVISOR_ARGS
-		 $KUBELET_CGROUP_ARGS $KUBELET_CERTIFICATE_ARGS $KUBELET_EXTRA_ARGS
+[root@k8s-master ~]# cat /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+	ExecStart=/usr/bin/kubelet --runtime-cgroups=/systemd/system.slice --kubelet-cgroups=/systemd/system.slice $KUBELET_KUBECONFIG_ARGS
+	 $KUBELET_SYSTEM_PODS_ARGS $KUBELET_NETWORK_ARGS $KUBELET_DNS_ARGS $KUBELET_AUTHZ_ARGS $KUBELET_CADVISOR_ARGS
+	 $KUBELET_CGROUP_ARGS $KUBELET_CERTIFICATE_ARGS $KUBELET_EXTRA_ARGS
 ```
 4. Enable and start docker and kubelet services
 ```sh
-	service enable docker
-	service start docker
-	service enable kubelet
-	service start kubelet
+service enable docker
+service start docker
+service enable kubelet
+service start kubelet
 ```
 5. Initializing kubernetes cluster and Initializing master
 ```sh
-	[root@k8s-master ~]# kubeadm init --apiserver-advertise-address=192.168.11.20 --pod-network-cidr=10.244.0.0/16
+[root@k8s-master ~]# kubeadm init --apiserver-advertise-address=192.168.11.20 --pod-network-cidr=10.244.0.0/16
 	[init] Using Kubernetes version: v1.10.0
 	[init] Using Authorization modes: [Node RBAC]
 	[preflight] Running pre-flight checks.
@@ -278,7 +280,9 @@ kube-system   kube-scheduler-k8s-master            1/1       Running   0        
 
 
 1. Create a persistent volume for mysql container.
-	create -f mysql-volume.yaml
+```
+kubectl create -f mysql-volume.yaml
+```
 ```sh
 [root@k8s-master files]# cat mysql-volume.yaml
 kind: PersistentVolume
@@ -298,7 +302,9 @@ spec:
 ```
 2. Create a secret for MySQL Password. Secret is an object that stores a piece of sensitive data like a password or key. 
 ```sh	
-[root@k8s-master files]# kubectl create secret generic mysql-pass --from-literal=password=YOUR_PASSWORD
+[root@k8s-master files]# kubectl create secret generic mysql-pass --from-literal=password=<YOUR_PASSWORD>
+```
+```
 [root@k8s-master files]# kubectl get secrets
 NAME                  TYPE                                  DATA      AGE
 mysql-pass            Opaque                                1         5h
@@ -385,21 +391,21 @@ kubectl create -f vol_wp.yaml
 ```
 
 ```sh
-	[root@k8s-master files]# cat vol_wp.yaml
-	kind: PersistentVolume
-	apiVersion: v1
-	metadata:
-	  name: task-pv-vol-wp
-	  labels:
-	    type: local
-	spec:
-	  storageClassName: wp
-	  capacity:
-	    storage: 3Gi
-	  accessModes:
-	    - ReadWriteOnce
-	  hostPath:
-	    path: "/mnt/data3"
+[root@k8s-master files]# cat vol_wp.yaml
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: task-pv-vol-wp
+  labels:
+    type: local
+spec:
+  storageClassName: wp
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data3"
 ```
 5. Deploy WordPress
 
