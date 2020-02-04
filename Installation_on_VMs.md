@@ -19,6 +19,10 @@ Prerequisites
 
 Kubernetes works in server-client concept, where, it has a master that provide centralized control for a all minions(agent). We will be deploying one Kubernetes master with one minion and we will also have a workspace machine from where we will run all installation scripts.
 
+* **kubeadm:** the command to bootstrap the cluster.
+* **kubelet:** the component that runs on all of the machines in your cluster and does things like starting pods and containers.
+* **kubectl:** the command line util to talk to your cluster.
+
 Kubernetes has several components:
 
 **Master Components:**
