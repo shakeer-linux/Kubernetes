@@ -43,10 +43,10 @@ Save the join token in the slave node that you will get after running the above 
 * Create a new unpreviliged user-account in master node
 
 ```sh
-$ sudo useradd arun -G sudo -m -s /bin/bash
-$ sudo passwd arun
+$ sudo useradd shakeer -G sudo -m -s /bin/bash
+$ sudo passwd shakeer
 ```
-Switch into the new user account with: ```sudo su arun``` and run below commands:-
+Switch into the new user account with: ```sudo su shakeer``` and run below commands:-
 
 ```sh
 $ mkdir -p $HOME/.kube
