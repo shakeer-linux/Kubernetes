@@ -215,7 +215,11 @@ setup-tools, vim, telnet etc
 7. Make a record of the kubeadm join command that kubeadm init outputs. You will need this in a moment.
 
 8. **Installation of POD network.**  
-We must install a pod network add-on so that our pods can communicate with each other. The network must be deployed before any applications. Also, kube-dns, an internal helper service, will not start up before a network is installed. kubeadm only supports Container Network Interface (CNI) based networks (and does not support kubenet). Ref: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network
+
+We must install a pod network add-on so that our pods can communicate with each other. The network must be deployed before any applications. Also, kube-dns, an internal helper service, will not start up before a network is installed. 
+
+kubeadm only supports Container Network Interface (CNI) based networks (and does not support kubenet). 
+Ref:    https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network
 ```sh	
 	kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml		
 ```
@@ -243,7 +247,8 @@ We must install a pod network add-on so that our pods can communicate with each 
 	systemctl daemon-reload
 	systemctl restart kubelet.service
 ```
-5. Now Join worker nodes to master node. To join worker nodes to Master node, a token is required. Whenever kubernetes master initialized , then in the output we get command and token. Copy that command and run on both nodes.
+5. Now Join worker nodes to master node. To join worker nodes to Master node, a token is required. 
+Whenever kubernetes master initialized , then in the output we get command and token. Copy that command and run on both nodes.
 ```sh
 	kubeadm join 192.168.11.20:6443 --token mkm92g.jajnw07mz3du6jdy --discovery-token-ca-cert-hash sha256:5b8be32a74b88c69bcb851a28cbb4cd6dcac5c685312180303495fc367ec0db4
 ```
@@ -275,21 +280,21 @@ kube-system   kube-scheduler-k8s-master            1/1       Running   0        
 1. Create a persistent volume for mysql container.
 	create -f mysql-volume.yaml
 ```sh
-	[root@k8s-master files]# cat mysql-volume.yaml
-	kind: PersistentVolume
-	apiVersion: v1
-	metadata:
-	  name: task-pv-volume
-	  labels:
-	    type: local
-	spec:
-	  storageClassName: manual
-	  capacity:
-	    storage: 3Gi
-	  accessModes:
-	    - ReadWriteOnce
-	  hostPath:
-	    path: "/mnt/data"
+[root@k8s-master files]# cat mysql-volume.yaml
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: task-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
 ```
 2. Create a secret for MySQL Password. Secret is an object that stores a piece of sensitive data like a password or key. 
 ```sh	
@@ -298,9 +303,13 @@ kube-system   kube-scheduler-k8s-master            1/1       Running   0        
 NAME                  TYPE                                  DATA      AGE
 mysql-pass            Opaque                                1         5h
 ```
+
 3. Deploy MySQL
+```
 kubectl create -f mysql.yaml
-	The following manifest describes a single-instance MySQL Deployment. The MySQL container mounts the PersistentVolume at /var/lib/mysql. The MYSQL_ROOT_PASSWORD environment variable sets the database password from the Secret.
+```
+The following manifest describes a single-instance MySQL Deployment. The MySQL container mounts the PersistentVolume at /var/lib/mysql. The MYSQL_ROOT_PASSWORD environment variable sets the database password from the Secret.
+
 ```sh
 [root@k8s-master files]# cat mysql.yaml
 apiVersion: v1
@@ -371,7 +380,10 @@ spec:
           claimName: mysql-pv-claim
 ```
 4. create a persistent volume for Wordpress container/pod.
-	create -f wordpress-volume.yaml
+```
+kubectl create -f vol_wp.yaml
+```
+
 ```sh
 	[root@k8s-master files]# cat vol_wp.yaml
 	kind: PersistentVolume
@@ -390,11 +402,13 @@ spec:
 	    path: "/mnt/data3"
 ```
 5. Deploy WordPress
-	The following manifest describes a single-instance WordPress Deployment and Service. It uses many of the same features like a PVC for persistent storage and a Secret for the password. But it also uses a different setting: type: NodePort. This setting exposes WordPress to traffic from outside of the cluster.
-	kubectl create -f wordpress-deployment.yaml
 
+The following manifest describes a single-instance WordPress Deployment and Service. It uses many of the same features like a PVC for persistent storage and a Secret for the password. But it also uses a different setting: type: NodePort. This setting exposes WordPress to traffic from outside of the cluster.
+```	
+kubectl create -f wordpress-deployment.yaml
+```
 ```sh
-[root@k8s-master files]# cat wordpress.yaml
+[root@k8s-master files]# cat wordpress-deployment.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -468,6 +482,7 @@ spec:
 [root@k8s-master files]#
 ```
 6. Accessing the Wordpress Application from Browser:
+
 ```sh
 	[root@k8s-master files]# kubectl get services
 	NAME              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
@@ -476,8 +491,10 @@ spec:
 	wordpress-mysql   ClusterIP   None             <none>        3306/TCP       6h
 	[root@k8s-master files]#
 ```
+
 From the Above output 31623 is Port and node1 IP address is 192.168.11.21.
-	**Open 192.168.11.21:31623 in you browser**
+
+**Open http://192.168.11.21:31623 in you browser**
 
 7. To Access containers or pods we can you below command.
 ```sh
