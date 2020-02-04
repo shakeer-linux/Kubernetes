@@ -137,7 +137,7 @@ root@ubuntu:~# sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 root@ubuntu:~# kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml
 ```
-#### Note : Please wait for few seconds
+**Note : Please wait for few seconds **
 
 
 **Commands:**
@@ -157,6 +157,15 @@ root@ubuntu:~#
 root@ubuntu:~# kubectl get services
 NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   104m
+root@ubuntu:~#
+
+
+root@ubuntu:~# kubectl cluster-info
+Kubernetes master is running at https://192.168.11.40:6443
+KubeDNS is running at https://192.168.11.40:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+root@ubuntu:~#
 root@ubuntu:~#
 
 
