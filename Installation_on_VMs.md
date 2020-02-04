@@ -27,21 +27,17 @@ Kubernetes has several components:
 
 **Master Components:**
 
-etcd – A highly available key-value store for shared configuration and service discovery.
-
-flannel – An etcd backed network fabric for containers.
-
-kube-apiserver – Provides the API for Kubernetes orchestration.
-
-kube-controller-manager – Enforces Kubernetes services.
-
-kube-scheduler – Schedules containers on hosts.
+* ***etcd*** – A highly available key-value store for shared configuration and service discovery.
+* ***flannel*** – An etcd backed network fabric for containers.***
+* ***kube-apiserver*** – Provides the API for Kubernetes orchestration.
+* ***kube-controller-manager*** – Enforces Kubernetes services.
+* ***kube-scheduler*** – Schedules containers on hosts.
 
 **Minion Components:**
 
-Docker - 	a daemon that runs application containers defined in pods.
-kubelet – Processes a container manifest so the containers are launched according to how they are described.
-kube-proxy – Provides network proxy services.
+* ***Docker*** - 	a daemon that runs application containers defined in pods.
+* ***kubelet*** – Processes a container manifest so the containers are launched according to how they are described.
+* ***kube-proxy*** – Provides network proxy services.
 
 
 **Installation:**
