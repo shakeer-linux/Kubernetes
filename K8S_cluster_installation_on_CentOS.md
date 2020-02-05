@@ -468,9 +468,9 @@ spec:
       - image: wordpress:4.9.4-apache
         name: wordpress
         env:
-        - name: kubemaster
+        - name: WORDPRESS_DB_HOST
           value: wordpress-mysql
-        - name: root
+        - name: WORDPRESS_DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mysql-pass
