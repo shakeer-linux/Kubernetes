@@ -61,26 +61,11 @@ shakeer:dashobard shakeerp$ diff recommended.yaml recommended.yaml_bkp
 shakeer:dashobard shakeerp$
 ```
 
-Run the dashboard yaml
+Run the dashboard deployment yaml file
 
 ```
-
 shakeer:~ shakeerp$ kubectl apply -f recommended.yaml
 ```
-
-```
-shakeer:~ shakeerp$ kubectl create serviceaccount dashboard -n default
-shakeer:~ shakeerp$
-shakeer:~ shakeerp$ kubectl create serviceaccount dashboard -n default
-serviceaccount/dashboard created
-shakeer:~ shakeerp$ kubectl create clusterrolebinding dashboard-admin -n default --clusterrole=cluster-admin --serviceaccount=default:dashboard
-clusterrolebinding.rbac.authorization.k8s.io/dashboard-admin created
-shakeer:~ shakeerp$
-shakeer:~ shakeerp$ kubectl get secret $(kubectl get serviceaccount dashboard -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 --decode
-eyJhbGciOiJSUzI1NiIsImtpZCI6InU0RmptcHk0TzFiRk5SdUJ0UzhKcHB4SEg3Q3RzYXNOeC1OUVFHS2xtcVkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRhc2hib2FyZC10b2tlbi1idnB0dyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJkYXNoYm9hcmQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI4YTBiMDRlNS1jMTE3LTQ1ZDItYWNkMC05MmI3MjAxMWIyZDgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDpkYXNoYm9hcmQifQ.FuWYZ4O5heoD3E75NbAOZz-yP3VUHXkjkdwp5-syvoQmjFH6YCwW9laciAfSrgwCXZYPQoWkmSlGnFe4K1NZVvyWeMbhE8Bins-EpeJ5kOpRkOPQ2dwhLty3J9esTwO5qAcidJhtRD5VWxKebEyA5VvL3g-E7dkjB1vt1fn3tIiOKe-5m1ntjBOWVnTljFrIKGRnS7DcLswscIwAEAuM6aFVUobMCB6pcwwNEaQRV8lhAVQztEhQZe5Z7xrppLu6JmMoAGvXLSOTPaJjHIWgyu9-eGwsMtWslOVdTC77bQ3y6oJ5oYjBc54hmyh-4JnRk-1sC234QMLh4EdCl3R67wshakeer:~ shakeerp$
-shakeer:~ shakeerp$
-```
-
 
 ```
 shakeer:~ shakeerp$ kubectl get svc -n kubernetes-dashboard
@@ -89,7 +74,6 @@ dashboard-metrics-scraper   NodePort   10.96.73.64     <none>        8000:31062/
 kubernetes-dashboard        NodePort   10.96.221.104   <none>        443:31429/TCP    28m
 shakeer:~ shakeerp$
 ```
-
 
 ```
 shakeer:~ shakeerp$ kubectl cluster-info
@@ -100,7 +84,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 shakeer:~ shakeerp$
 ```
 
-Open In the link in Browser:  https://192.168.99.100:31429
+Open the link in Browser :  https://192.168.99.100:31429
 
 It will ask for the Token: 
 ```
@@ -111,7 +95,9 @@ shakeer:~ shakeerp$ kubectl create clusterrolebinding dashboard-admin -n default
 clusterrolebinding.rbac.authorization.k8s.io/dashboard-admin created
 
 shakeer:~ shakeerp$ kubectl get secret $(kubectl get serviceaccount dashboard -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 --decode
+
 eyJhbGciOiJSUzI1NiIsImtpZCI6InU0RmptcHk0TzFiRk5SdUJ0UzhKcHB4SEg3Q3RzYXNOeC1OUVFHS2xtcVkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRhc2hib2FyZC10b2tlbi1idnB0dyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJkYXNoYm9hcmQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI4YTBiMDRlNS1jMTE3LTQ1ZDItYWNkMC05MmI3MjAxMWIyZDgiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6ZGVmYXVsdDpkYXNoYm9hcmQifQ.FuWYZ4O5heoD3E75NbAOZz-yP3VUHXkjkdwp5-syvoQmjFH6YCwW9laciAfSrgwCXZYPQoWkmSlGnFe4K1NZVvyWeMbhE8Bins-EpeJ5kOpRkOPQ2dwhLty3J9esTwO5qAcidJhtRD5VWxKebEyA5VvL3g-E7dkjB1vt1fn3tIiOKe-5m1ntjBOWVnTljFrIKGRnS7DcLswscIwAEAuM6aFVUobMCB6pcwwNEaQRV8lhAVQztEhQZe5Z7xrppLu6JmMoAGvXLSOTPaJjHIWgyu9-eGwsMtWslOVdTC77bQ3y6oJ5oYjBc54hmyh-4JnRk-1sC234QMLh4EdCl3R67w
+
 shakeer:~ shakeerp$
 ```
 
