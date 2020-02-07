@@ -13,4 +13,4 @@
 
 [Kubernetes Installation Guide on Vagrant(ubuntu vm)](https://github.com/shakeer-linux/Kubernetes/blob/master/K8S_cluster_Installation_on_vagrant.md)
 
-
+[Kubernetes Dashboard Installation](https://github.com/shakeer-linux/Kubernetes/blob/master/Dashboard_Installation.md)
