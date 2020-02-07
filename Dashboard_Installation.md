@@ -2,15 +2,16 @@
 ## Kubernetes Dashboard Installation
 
 
+**Download the kubernetes dashobard yaml file.
+
 ```
 shakeer:~ shakeerp$ curl -LO http://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
 ```
 
-
-
-Add the line “type: NodePort” in below two services. This line has not added in recommended.yaml
+**Add the line “type: NodePort” in below two services. This line has not added in recommended.yaml
 
 ```
+###########################
  30 ---
  31
  32 kind: Service
@@ -27,10 +28,7 @@ Add the line “type: NodePort” in below two services. This line has not added
  43   selector:
  44     k8s-app: kubernetes-dashboard
  45   type: NodePort
- 
-
-
-
+########################### 
 235 ---
 236
 237 kind: Service
@@ -47,10 +45,9 @@ Add the line “type: NodePort” in below two services. This line has not added
 248   selector:
 249     k8s-app: dashboard-metrics-scraper
 250   type: NodePort
+###########################
 ```
-
-
-
+Note: Check the difference between edited and original yaml files.
 
 ```
 shakeer:dashobard shakeerp$ diff recommended.yaml recommended.yaml_bkp
@@ -61,11 +58,12 @@ shakeer:dashobard shakeerp$ diff recommended.yaml recommended.yaml_bkp
 shakeer:dashobard shakeerp$
 ```
 
-Run the dashboard deployment yaml file
+**Now, run/excute the dashboard deployment yaml file.
 
 ```
 shakeer:~ shakeerp$ kubectl apply -f recommended.yaml
 ```
+Get the information of ports to access the dashboard.
 
 ```
 shakeer:~ shakeerp$ kubectl get svc -n kubernetes-dashboard
@@ -84,9 +82,10 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 shakeer:~ shakeerp$
 ```
 
-Open the link in Browser :  https://192.168.99.100:31429
+**Open the link in Browser ::  https://192.168.99.100:31429
 
-It will ask for the Token: 
+Here, it will ask for the token. So, by running below process you will generate a token. copy the token on browser.
+
 ```
 shakeer:~ shakeerp$ kubectl create serviceaccount dashboard -n default
 serviceaccount/dashboard created
@@ -100,7 +99,4 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6InU0RmptcHk0TzFiRk5SdUJ0UzhKcHB4SEg3Q3RzYXNOeC1OUVFH
 
 shakeer:~ shakeerp$
 ```
-
-Copy the Above token into the browser. Then you will get the kubernetes dashboard.
-
-
+**Copy the Above token into the browser. Then you can access the Kubernetes dashboard.
