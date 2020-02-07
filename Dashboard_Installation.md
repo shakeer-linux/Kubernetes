@@ -8,7 +8,7 @@
 shakeer:~ shakeerp$ curl -LO http://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
 ```
 
-**Add the line “type: NodePort” in below two services. This line has not added in recommended.yaml
+**Add the line “type: NodePort” in below two services. This line has not added in recommended.yaml**
 
 ```
 ###########################
@@ -58,7 +58,7 @@ shakeer:dashobard shakeerp$ diff recommended.yaml recommended.yaml_bkp
 shakeer:dashobard shakeerp$
 ```
 
-**Now, run/excute the dashboard deployment yaml file.
+**Now, run/excute the dashboard deployment yaml file.**
 
 ```
 shakeer:~ shakeerp$ kubectl apply -f recommended.yaml
@@ -82,7 +82,7 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 shakeer:~ shakeerp$
 ```
 
-**Open the link in Browser ::  https://192.168.99.100:31429
+**Open the link in Browser ::  https://192.168.99.100:31429**
 
 Here, it will ask for the token. So, by running below process you will generate a token. copy the token on browser.
 
@@ -99,4 +99,4 @@ eyJhbGciOiJSUzI1NiIsImtpZCI6InU0RmptcHk0TzFiRk5SdUJ0UzhKcHB4SEg3Q3RzYXNOeC1OUVFH
 
 shakeer:~ shakeerp$
 ```
-**Copy the Above token into the browser. Then you can access the Kubernetes dashboard.
+**Copy the Above token into the browser. Then you can access the Kubernetes dashboard.**
