@@ -2,7 +2,7 @@
 ## Kubernetes Dashboard Installation
 
 
-**Download the kubernetes dashobard yaml file.
+**Download the kubernetes dashobard yaml file.**
 
 ```
 shakeer:~ shakeerp$ curl -LO http://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
