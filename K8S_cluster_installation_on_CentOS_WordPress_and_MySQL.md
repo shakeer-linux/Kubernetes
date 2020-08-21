@@ -1,4 +1,4 @@
-# KUBERNETES INSTALLATION DOCUMENT
+# KUBERNETES Installation and With Wordpress and MySQL
 ---
 **Installing Kubernetes Cluster with 2 minions on CentOS to manage pods and services.**
 
