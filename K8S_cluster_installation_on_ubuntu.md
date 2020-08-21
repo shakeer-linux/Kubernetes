@@ -68,6 +68,11 @@ root@ubuntu:~# cat /etc/apt/sources.list.d/kubernetes.list
 deb http://apt.kubernetes.io/ kubernetes-xenial main
 root@ubuntu:~#
 ```
+```
+root@ubuntu:~# apt-get update
+root@ubuntu:~#
+```
+
 **Now update the package list and install**
 ```
 root@ubuntu:~# sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
@@ -78,6 +83,8 @@ Reading package lists… Done
 root@ubuntu:~#
 
 ````
+
+
 **Configure the hosts file**
 ```
 root@ubuntu:~# cat /etc/hosts
