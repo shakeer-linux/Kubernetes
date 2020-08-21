@@ -61,16 +61,20 @@ root@ubuntu:~#
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#master-isolation
 ```
 
-By default, your cluster will not schedule Pods on the control-plane node for security reasons. If you want to be able to schedule Pods on the control-plane node, e.g. for a single-machine Kubernetes cluster for development, run:
+By default, your cluster will not schedule Pods on the control-plane node for security reasons. If you want to be able to schedule Pods on the control-plane node, e.g. for a single-machine Kubernetes cluster for development, 
+
+run:
 ```kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
 With output looking something like:
 ```
 node "test-01" untainted
-```
+
+or 
 
 taint "node-role.kubernetes.io/master:" not found
 taint "node-role.kubernetes.io/master:" not found
+```
 
 
 
