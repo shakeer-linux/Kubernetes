@@ -97,7 +97,7 @@ root@ubuntu:~# cat /etc/hosts
 root@ubuntu:~#
 ```
 #### Note:
-##### I may use flannet network to configure so. remember the pod-network here. For flannel to work correctly, you must pass --pod-network-cidr=10.244.0.0/16 to kubeadm init
+I may use **flannet network** to configure so. remember the pod-network here. For flannel to work correctly, you must pass **--pod-network-cidr=10.244.0.0/16** to kubeadm init
 
 #### Initialize the node with below command.
 ```
