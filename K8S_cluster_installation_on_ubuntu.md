@@ -140,10 +140,16 @@ root@ubuntu:~# sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 root@ubuntu:~# sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-**Apply flannel to the cluster***
+**Apply flannel to the cluster**
 ```
 root@ubuntu:~# kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml
 ```
+or
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
+Ref : https://github.com/coreos/flannel/
+
 **Note : Please wait for few seconds **
 
 
