@@ -127,7 +127,7 @@ root@ubuntu:~#
 
 ```
 #### Note:
-##### Remember the below commands fromt the kubeadm init output and execute it and also remember the kubeadm join command for future referenced to add or join the worker nodes to cluster. 
+Remember the below commands fromt the **kubeadm init** output and execute it and also remember the **kubeadm join** command for future referenced to add or join the worker nodes to cluster. 
 ```
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
