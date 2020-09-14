@@ -39,3 +39,12 @@ ubuntu18-569c9b5c-pwb96                  1/1     Running   0          5m13s
 root@ubuntu16Desktop:~/ubuntu18#
 
 ```
+
+Get a shell to the running container:
+
+```
+root@ubuntu16Desktop:~/ubuntu18# kubectl exec --stdin --tty ubuntu18-569c9b5c-pwb96 -n monitoring  -- /bin/bash
+root@ubuntu18-569c9b5c-pwb96:/#
+```
+
+
